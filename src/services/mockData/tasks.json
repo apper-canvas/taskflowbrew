@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "title": "Review quarterly sales reports",
+    "description": "Analyze Q3 performance metrics and prepare recommendations for Q4 strategy adjustments",
+    "priority": "high",
+    "completed": false,
+    "createdAt": "2024-01-15T09:30:00Z"
+  },
+  {
+    "id": "2", 
+    "title": "Schedule team one-on-ones",
+    "description": "Book 30-minute meetings with each team member to discuss career development and current projects",
+    "priority": "medium",
+    "completed": false,
+    "createdAt": "2024-01-15T10:15:00Z"
+  },
+  {
+    "id": "3",
+    "title": "Update project documentation",
+    "description": "Revise API documentation and user guides to reflect recent feature updates",
+    "priority": "medium",
+    "completed": true,
+    "createdAt": "2024-01-14T14:45:00Z"
+  },
+  {
+    "id": "4",
+    "title": "Organize desk workspace",
+    "description": "Clear clutter, organize files, and set up ergonomic monitor setup for better productivity",
+    "priority": "low",
+    "completed": false,
+    "createdAt": "2024-01-14T16:20:00Z"
+  },
+  {
+    "id": "5",
+    "title": "Prepare client presentation",
+    "description": "Create slide deck for Thursday's client meeting showcasing project progress and next steps",
+    "priority": "high",
+    "completed": false,
+    "createdAt": "2024-01-13T11:00:00Z"
+  }
+]
