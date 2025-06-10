@@ -1,82 +1,83 @@
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { toast } from 'react-toastify'
-import ApperIcon from '../components/ApperIcon'
-import TaskInput from '../components/TaskInput'
-import TaskList from '../components/TaskList'
-import FilterBar from '../components/FilterBar'
-import { taskService } from '../services'
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
+import ApperIcon from '@/components/ApperIcon';
+import TaskInputForm from '@/components/organisms/TaskInputForm';
+import TaskListDisplay from '@/components/organisms/TaskListDisplay';
+import FilterBarOrganism from '@/components/organisms/FilterBarOrganism';
+import Text from '@/components/atoms/Text';
+import { taskService } from '@/services';
 
-const Home = () => {
-  const [tasks, setTasks] = useState([])
-  const [filter, setFilter] = useState({ status: 'all', searchTerm: '' })
-  const [loading, setLoading] = useState(true)
+const HomePage = () => {
+  const [tasks, setTasks] = useState([]);
+  const [filter, setFilter] = useState({ status: 'all', searchTerm: '' });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadTasks = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const result = await taskService.getAll()
-        setTasks(result)
+        const result = await taskService.getAll();
+        setTasks(result);
       } catch (error) {
-        toast.error('Failed to load tasks')
+        toast.error('Failed to load tasks');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    loadTasks()
-  }, [])
+    };
+    loadTasks();
+  }, []);
 
   const handleAddTask = async (taskData) => {
     try {
-      const newTask = await taskService.create(taskData)
-      setTasks(prev => [newTask, ...prev])
-      toast.success('Task added successfully!')
+      const newTask = await taskService.create(taskData);
+      setTasks(prev => [newTask, ...prev]);
+      toast.success('Task added successfully!');
     } catch (error) {
-      toast.error('Failed to add task')
+      toast.error('Failed to add task');
     }
-  }
+  };
 
   const handleUpdateTask = async (id, updates) => {
     try {
-      const updatedTask = await taskService.update(id, updates)
-      setTasks(prev => prev.map(task => task.id === id ? updatedTask : task))
+      const updatedTask = await taskService.update(id, updates);
+      setTasks(prev => prev.map(task => task.id === id ? updatedTask : task));
       
       if (updates.completed !== undefined) {
-        toast.success(updates.completed ? 'Task completed! 🎉' : 'Task marked as active')
+        toast.success(updates.completed ? 'Task completed! 🎉' : 'Task marked as active');
       } else {
-        toast.success('Task updated successfully!')
+        toast.success('Task updated successfully!');
       }
     } catch (error) {
-      toast.error('Failed to update task')
+      toast.error('Failed to update task');
     }
-  }
+  };
 
   const handleDeleteTask = async (id) => {
     try {
-      await taskService.delete(id)
-      setTasks(prev => prev.filter(task => task.id !== id))
-      toast.success('Task deleted successfully!')
+      await taskService.delete(id);
+      setTasks(prev => prev.filter(task => task.id !== id));
+      toast.success('Task deleted successfully!');
     } catch (error) {
-      toast.error('Failed to delete task')
+      toast.error('Failed to delete task');
     }
-  }
+  };
 
   const filteredTasks = tasks.filter(task => {
     const matchesStatus = 
       filter.status === 'all' || 
       (filter.status === 'active' && !task.completed) ||
-      (filter.status === 'completed' && task.completed)
+      (filter.status === 'completed' && task.completed);
     
     const matchesSearch = 
       !filter.searchTerm ||
       task.title.toLowerCase().includes(filter.searchTerm.toLowerCase()) ||
-      task.description.toLowerCase().includes(filter.searchTerm.toLowerCase())
+      task.description.toLowerCase().includes(filter.searchTerm.toLowerCase());
     
-    return matchesStatus && matchesSearch
-  })
+    return matchesStatus && matchesSearch;
+  });
 
-  const completedCount = tasks.filter(task => task.completed).length
+  const completedCount = tasks.filter(task => task.completed).length;
 
   if (loading) {
     return (
@@ -118,7 +119,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -130,12 +131,12 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+          <Text as="h1" className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
             TaskFlow
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto break-words">
+          </Text>
+          <Text as="p" className="text-lg text-gray-600 max-w-2xl mx-auto break-words">
             Efficiently manage and complete your daily tasks with a clean, focused interface
-          </p>
+          </Text>
           {completedCount > 0 && (
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -143,7 +144,7 @@ const Home = () => {
               className="mt-4 inline-flex items-center space-x-2 bg-success/10 text-success px-4 py-2 rounded-full"
             >
               <ApperIcon name="CheckCircle" size={16} />
-              <span className="font-medium">{completedCount} task{completedCount !== 1 ? 's' : ''} completed</span>
+              <Text as="span" className="font-medium">{completedCount} task{completedCount !== 1 ? 's' : ''} completed</Text>
             </motion.div>
           )}
         </motion.div>
@@ -155,7 +156,7 @@ const Home = () => {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <TaskInput onAddTask={handleAddTask} />
+          <TaskInputForm onAddTask={handleAddTask} />
         </motion.div>
 
         {/* Filter Bar */}
@@ -165,7 +166,7 @@ const Home = () => {
           transition={{ delay: 0.2 }}
           className="mb-6"
         >
-          <FilterBar filter={filter} onFilterChange={setFilter} taskCount={filteredTasks.length} />
+          <FilterBarOrganism filter={filter} onFilterChange={setFilter} taskCount={filteredTasks.length} />
         </motion.div>
 
         {/* Task List */}
@@ -174,7 +175,7 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <TaskList
+          <TaskListDisplay
             tasks={filteredTasks}
             onUpdateTask={handleUpdateTask}
             onDeleteTask={handleDeleteTask}
@@ -183,7 +184,7 @@ const Home = () => {
         </motion.div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default HomePage;

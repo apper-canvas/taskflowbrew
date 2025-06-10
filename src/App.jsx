@@ -1,11 +1,11 @@
 import React from 'react'
 import { ToastContainer } from 'react-toastify'
-import Home from './pages/Home'
+import HomePage from '@/components/pages/HomePage';
 
 function App() {
   return (
     <>
-      <Home />
+<HomePage />
       <ToastContainer
         position="top-right"
         autoClose={3000}
