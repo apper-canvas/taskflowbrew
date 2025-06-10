@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '@/components/atoms/Button';
 import ApperIcon from '@/components/ApperIcon';
 
 const Checkbox = ({ checked, onChange, className = '', ...props }) => {
